@@ -22,7 +22,7 @@ class ArticleDeleteView(DeleteView):
     template_name = 'articles/article_delete.html'
     success_url = reverse_lazy("article_list")
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     template_name = "articles/article_new.html"
     fields = ( "title", 
