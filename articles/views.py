@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from .models import Article
+from .models import Article, Comment
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
