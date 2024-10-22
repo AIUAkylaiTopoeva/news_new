@@ -64,7 +64,7 @@ class CommentPost(SingleObjectMixin, FormView):
         return super().post(request, *args, **kwargs)
     
     def form_valid(self, form):
-        comment = form.save(commit=False)
+        comment = form.save(commit=False)#означает, что объект ещё не будет сохранён в базе данных, что позволяет вам вносить изменения перед фактическим сохранением.
         comment.article = self.object
         comment.save()
         return super().form_valid(form)
