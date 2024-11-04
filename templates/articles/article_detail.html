@@ -9,6 +9,12 @@
 <hr> <h4>Comments</h4>
 {% for comment in article.comment_set.all %}
 <p>{{ comment.author }} &middot; {{ comment }}</p>
+    {% if comment.author == request.user %}
+    <p><a href="{% url 'comment_edit' comment.pk %}">Edit</a> | 
+    <a href="{% url 'comment_delete' comment.pk %}">Delete</a></p>
+    {% elif  user.is_staff %} 
+    <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+        {% endif %}
 {% endfor %}
 </hr>
 <h4>Add a comment</h4> 
@@ -19,7 +25,10 @@
 {% if article.author == user %}
 <p> 
     <a href="{% url 'article_update' article.pk %}">Edit</a> |
-<a href="{% url 'article_delete' article.pk %}">Delete</a></p> 
+    <a href="{% url 'article_delete' article.pk %}">Delete</a></p> {% endif %}
+{% if user.is_staff %}
+<p><a href="{% url 'article_delete' article.pk %}">Delete</a></p> 
+{% endif %}
 <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.
-</p>{% endif %}
+</p>
 {% endblock content %}

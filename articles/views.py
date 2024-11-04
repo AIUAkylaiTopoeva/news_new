@@ -83,3 +83,36 @@ class ArticleDetailView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         view = CommentPost.as_view()
         return view(request, *args, **kwargs)
+    
+class CommentEditView(UserPassesTestMixin, UpdateView): 
+    model = Comment 
+    form_class = CommentForm 
+    template_name = "articles/comment_edit.html" 
+ 
+    def get_queryset(self): 
+        return Comment.objects.filter(author=self.request.user) 
+ 
+    def get_success_url(self): 
+        return reverse("article_detail", kwargs={"pk": self.object.article.pk}) 
+    
+    def test_func(self): 
+        obj = self.get_object()
+        return obj.author == self.request.user
+ 
+class CommentDeleteView(UserPassesTestMixin, DeleteView): 
+    model = Comment 
+    template_name = "articles/comment_confirm_delete.html" 
+     
+    def get_queryset(self): 
+        return Comment.objects.filter(author=self.request.user) 
+     
+    def test_func(self): 
+        comment = self.get_object() 
+        return ( 
+            self.request.user == comment.author or 
+            self.request.user == comment.article.author  or 
+            self.request.user.is_staff 
+        ) 
+     
+    def get_success_url(self): 
+        return reverse("article_detail", kwargs={"pk": self.object.article.pk})
