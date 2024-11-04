@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -140,8 +146,13 @@ LOGOUT_REDIRECT_URL = "home"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+import certifi
+import ssl
+
+ssl_context = ssl.create_default_context(cafile=certifi.where())
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# DEFAULT_FROM_EMAIL = "topoevaakylaj@gmail.com"
+DEFAULT_FROM_EMAIL = "topoevaakylaj@gmail.com"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "topoevaakylaj@gmail.com"
 EMAIL_HOST_PASSWORD = "bbuvjjxknawxogzs"
